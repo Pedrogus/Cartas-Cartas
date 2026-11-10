@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="Cartas&Cartas"
+run/main_scene="uid://cvj10k60qihm8"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
+
+[autoload]
+
+EventBus="*uid://bqcjoub3vynp0"
+GameManager="*uid://482fv7vqn8l"
 
 [display]
 
