@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "explosao_psiquica"
+nome = "Explosão Psíquica"
+descricao = "-2 no acerto. 2d8 de dano psíquico."
+classe_origem = 1
+copias_iniciais = 2
+tipo_dano = 4
+qtd_dados = 2
+faces_dado = 8
+atributo_usado = 3
+penalidade_acerto = 2
+nivel_magia = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://d385d6lw0uj5p"]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "escudo_madeira"
+nome = "Escudo de Madeira"
+descricao = "+2 de CA por 1 turno."
+tipo_carta = 1
+copias_iniciais = 4
+efeito = 1
+valor = 2
+duracao_turnos = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

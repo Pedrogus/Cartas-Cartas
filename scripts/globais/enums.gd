@@ -8,7 +8,6 @@ enum Classe {
 	GUERREIRO,
 	MAGO,
 }
-
 enum TipoDano {
 	# Físicos
 	CORTANTE,
@@ -24,6 +23,35 @@ enum TipoDano {
 	NECROTICO,
 }
 
+enum Atributo {
+	FOR,
+	DES,
+	CON,
+	INT,
+	SAB,
+	CAR,
+}
+
+enum TipoCarta {
+	ATAQUE,     # causa dano (rolagem de acerto ou salvaguarda)
+	DEFESA,     # dá bônus de CA ou protege
+	UTILIDADE,  # compra carta, controle do inimigo, etc.
+}
+
+## O que a carta FAZ além (ou no lugar) do dano.
+## O CombatManager (etapa 6) lê este enum com um match.
+enum Efeito {
+	NENHUM,
+	BONUS_CA,                # +valor de CA por duracao_turnos
+	BONUS_ACERTO,            # +valor no ataque por duracao_turnos
+	BONUS_DANO,              # +valor de dano por duracao_turnos
+	COMPRAR_CARTAS,          # compra valor cartas
+	INIMIGO_PERDE_TURNOS,    # Teia: inimigo perde valor turnos (se falhar na salvaguarda)
+	BONUS_ACERTO_PROXIMA,    # Grito de Guerra: +valor no d20 da próxima carta de ataque
+	COMPRAR_SE_DADO_PAR,     # Toque Chocante: compra valor carta(s) se o dado de dano for par
+	MULLIGAN_EXTRA,          # Foco Mental: troca até valor cartas sem gastar o limite
+	BONUS_CA_E_REROLAR,      # Escudo Arcano: +valor CA e rerrola d20 de 1 ou 2
+}
 
 ## Físico ou Mágico? (usado depois no cálculo de tier e de resistência)
 static func eh_fisico(tipo: TipoDano) -> bool:

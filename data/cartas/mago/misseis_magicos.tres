@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://dubxq8j06o8kh"]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "misseis_magicos"
+nome = "Mísseis Mágicos"
+descricao = "Acerto automático. 2d4 de dano de força."
+classe_origem = 1
+copias_iniciais = 4
+tipo_dano = 3
+qtd_dados = 2
+faces_dado = 4
+atributo_usado = 3
+acerto_automatico = true
+nivel_magia = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

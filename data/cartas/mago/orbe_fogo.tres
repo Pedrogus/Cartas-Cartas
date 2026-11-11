@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://do5qhbiqce0b4"]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "orbe_fogo"
+nome = "Orbe de Fogo"
+descricao = "1d10 de dano de fogo."
+classe_origem = 1
+copias_iniciais = 3
+tipo_dano = 5
+qtd_dados = 1
+faces_dado = 10
+atributo_usado = 3
+nivel_magia = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

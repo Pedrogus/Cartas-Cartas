@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "toque_chocante"
+nome = "Toque Chocante"
+descricao = "1d6 de dano elétrico. Compra 1 carta se o dado der par."
+classe_origem = 1
+copias_iniciais = 2
+tipo_dano = 7
+qtd_dados = 1
+faces_dado = 6
+atributo_usado = 3
+nivel_magia = 1
+efeito = 7
+valor = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

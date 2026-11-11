@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "armadura_arcana"
+nome = "Armadura Arcana"
+descricao = "+3 de CA por 3 turnos."
+classe_origem = 1
+tipo_carta = 1
+copias_iniciais = 3
+atributo_usado = 3
+nivel_magia = 1
+efeito = 1
+valor = 3
+duracao_turnos = 3
+metadata/_custom_type_script = "uid://utuhllcodric"

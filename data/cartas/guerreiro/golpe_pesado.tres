@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "golpe_pesado"
+nome = "Golpe Pesado"
+descricao = "Golpe brutal, -2 no acerto. 1d10 + FOR de dano contundente."
+copias_iniciais = 4
+tipo_dano = 2
+qtd_dados = 1
+faces_dado = 10
+soma_atributo_no_dano = true
+penalidade_acerto = 2
+metadata/_custom_type_script = "uid://utuhllcodric"

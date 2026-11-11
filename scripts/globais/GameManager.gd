@@ -17,7 +17,24 @@ var turnos_contados: int = 0
 func _ready() -> void:
 	EventBus.game_over.connect(_on_game_over)
 	print("GameManager pronto")
+	
 	#nova_run(Enums.Classe.GUERREIRO)
+	#var t := ActorStats.new()
+	#t.forca = 16
+	#t.nivel = 5
+	#t.hp_max = 12
+	#var c := t.criar_copia_combate(5)
+	#c.receber_dano(20)
+	#print(t.bonus_proficiencia(), " ", t.modificador(Enums.Atributo.FOR), " ", c.hp_atual, " ", t.hp_atual, " ", c.esta_morto())
+	for pasta in ["guerreiro", "mago"]:
+		var total := 0
+		for arq in DirAccess.get_files_at("res://data/cartas/" + pasta):
+			if arq.ends_with(".tres"):
+				var c: CardData = load("res://data/cartas/%s/%s" % [pasta, arq])
+				total += c.copias_iniciais
+		print(pasta, ": ", total)
+	print((load("res://data/cartas/mago/misseis_magicos.tres") as CardData).texto_dado())
+	print((load("res://data/cartas/guerreiro/espada.tres") as CardData).texto_dado())
 
 
 

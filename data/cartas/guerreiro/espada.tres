@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://cavikt3diisog"]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "espada"
+nome = "Ataque de Espada"
+descricao = "Golpe de espada. 1d6 + FOR de dano cortante."
+copias_iniciais = 6
+tipo_dano = 0
+qtd_dados = 1
+faces_dado = 6
+soma_atributo_no_dano = true
+metadata/_custom_type_script = "uid://utuhllcodric"
