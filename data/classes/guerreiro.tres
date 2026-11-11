@@ -1,13 +1,13 @@
-[gd_resource type="Resource" script_class="ClassData" format=3]
+[gd_resource type="Resource" script_class="ClassData" format=3 uid="uid://b8bvf4va5u1fr"]
 
-[ext_resource type="Script" path="res://scripts/dados/class_data.gd" id="1_class"]
+[ext_resource type="Script" uid="uid://bt7722y265fvp" path="res://scripts/dados/class_data.gd" id="1_class"]
 [ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
 [ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="3_card"]
-[ext_resource type="Resource" path="res://data/cartas/guerreiro/espada.tres" id="10_c"]
+[ext_resource type="Resource" uid="uid://cavikt3diisog" path="res://data/cartas/guerreiro/espada.tres" id="10_c"]
 [ext_resource type="Resource" path="res://data/cartas/guerreiro/golpe_pesado.tres" id="11_c"]
-[ext_resource type="Resource" path="res://data/cartas/guerreiro/escudo_madeira.tres" id="12_c"]
+[ext_resource type="Resource" uid="uid://d385d6lw0uj5p" path="res://data/cartas/guerreiro/escudo_madeira.tres" id="12_c"]
 [ext_resource type="Resource" path="res://data/cartas/guerreiro/investida.tres" id="13_c"]
-[ext_resource type="Resource" path="res://data/cartas/guerreiro/grito_guerra.tres" id="14_c"]
+[ext_resource type="Resource" uid="uid://cqrtt8vd5u3uk" path="res://data/cartas/guerreiro/grito_guerra.tres" id="14_c"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
@@ -16,7 +16,6 @@ destreza = 13
 constituicao = 14
 inteligencia = 8
 sabedoria = 12
-carisma = 10
 hp_max = 12
 ca = 15
 
@@ -24,8 +23,6 @@ ca = 15
 script = ExtResource("1_class")
 nome = "Guerreiro"
 descricao = "Combatente corpo a corpo: muita vida e CA, dano físico."
-id = 0
 dado_vida = 10
-atributo_principal = 0
 stats = SubResource("Resource_stats")
 cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c")])

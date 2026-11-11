@@ -8,6 +8,7 @@ id = "grito_guerra"
 nome = "Grito de Guerra"
 descricao = "+2 no d20 da próxima carta de ataque."
 tipo_carta = 2
+tipo_acao = 1
 copias_iniciais = 4
 efeito = 6
 valor = 2

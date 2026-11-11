@@ -1,3 +1,7 @@
 [gd_scene format=3 uid="uid://cvj10k60qihm8"]
 
+[ext_resource type="PackedScene" path="res://scenes/combate.tscn" id="1_combate"]
+
 [node name="Main" type="Node2D" unique_id=565477525]
+
+[node name="Combate" parent="." instance=ExtResource("1_combate")]

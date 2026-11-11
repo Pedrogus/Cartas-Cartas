@@ -53,6 +53,13 @@ enum Efeito {
 	BONUS_CA_E_REROLAR,      # Escudo Arcano: +valor CA e rerrola d20 de 1 ou 2
 }
 
+## Que tipo de ação a carta gasta no turno.
+## ACAO: ataques, magias de ataque e Teia. ACAO_BONUS: suporte (escudos, Grito, Foco).
+enum TipoAcao {
+	ACAO,
+	ACAO_BONUS,
+}
+
 ## Físico ou Mágico? (usado depois no cálculo de tier e de resistência)
 static func eh_fisico(tipo: TipoDano) -> bool:
 	return tipo == TipoDano.CORTANTE \

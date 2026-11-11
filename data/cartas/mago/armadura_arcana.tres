@@ -9,6 +9,7 @@ nome = "Armadura Arcana"
 descricao = "+3 de CA por 3 turnos."
 classe_origem = 1
 tipo_carta = 1
+tipo_acao = 1
 copias_iniciais = 3
 atributo_usado = 3
 nivel_magia = 1

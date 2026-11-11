@@ -8,6 +8,7 @@ id = "escudo_madeira"
 nome = "Escudo de Madeira"
 descricao = "+2 de CA por 1 turno."
 tipo_carta = 1
+tipo_acao = 1
 copias_iniciais = 4
 efeito = 1
 valor = 2

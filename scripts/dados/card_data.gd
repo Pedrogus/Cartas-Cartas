@@ -8,6 +8,8 @@ extends Resource
 @export_multiline var descricao: String = ""
 @export var classe_origem: Enums.Classe = Enums.Classe.GUERREIRO
 @export var tipo_carta: Enums.TipoCarta = Enums.TipoCarta.ATAQUE
+## Gasta 1 ação (ataques, magias de ataque, Teia) ou 1 ação bônus (suporte) do turno.
+@export var tipo_acao: Enums.TipoAcao = Enums.TipoAcao.ACAO
 @export var arte: Texture2D
 @export var preco: int = 1
 ## Cópias no deck inicial da classe de origem (0 = só aparece por level up ou mercador).

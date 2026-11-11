@@ -9,6 +9,7 @@ nome = "Escudo Arcano"
 descricao = "+3 de CA por 1 turno. Rerrola d20 de 1 ou 2."
 classe_origem = 1
 tipo_carta = 1
+tipo_acao = 1
 copias_iniciais = 1
 atributo_usado = 3
 nivel_magia = 1

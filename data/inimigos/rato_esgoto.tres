@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3]
+
+[ext_resource type="Script" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
+
+[sub_resource type="Resource" id="Resource_stats"]
+script = ExtResource("2_stats")
+destreza = 14
+inteligencia = 10
+hp_max = 15
+ca = 10
+
+[resource]
+script = ExtResource("1_enemy")
+id = "rato_esgoto"
+nome = "Rato de Esgoto Mutante"
+descricao = "Fase 1. Rápido e fraco, mas teme o fogo."
+stats = SubResource("Resource_stats")
+bonus_ataque = 2
+qtd_dados = 1
+faces_dado = 4
+tipo_dano = 1
+turnos_alvo = 3
+fraquezas = Array[int]([5])
