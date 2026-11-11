@@ -8,6 +8,7 @@ extends Resource
 @export var nome: String = ""
 @export_multiline var descricao: String = ""
 @export var arte: Texture2D
+@export var tipo_criatura: Enums.TipoCriatura = Enums.TipoCriatura.HUMANOIDE
 @export var eh_chefe: bool = false  # chefe faz salvaguarda com vantagem (Teia)
 
 @export_group("Números")

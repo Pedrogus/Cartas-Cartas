@@ -14,6 +14,7 @@ ca = 8
 script = ExtResource("1_enemy")
 id = "cultista_sombras"
 nome = "Cultista das Sombras"
+tipo_criatura = 0
 descricao = "Chefe do ciclo 1. Canaliza energia sombria."
 eh_chefe = true
 stats = SubResource("Resource_stats")

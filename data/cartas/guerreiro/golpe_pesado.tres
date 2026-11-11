@@ -12,5 +12,5 @@ tipo_dano = 2
 qtd_dados = 1
 faces_dado = 10
 soma_atributo_no_dano = true
-penalidade_acerto = 2
+penalidade_acerto = 1
 metadata/_custom_type_script = "uid://utuhllcodric"

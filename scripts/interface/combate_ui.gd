@@ -31,6 +31,11 @@ var _overlay_botoes: VBoxContainer
 
 
 func _ready() -> void:
+	# Este Control fica dentro de um Node2D (sem layout pai): sem tamanho fixo ele encolhe
+	# junto com o conteúdo (ex.: mão vazia). Fixa no tamanho da janela.
+	var tela := get_viewport_rect().size
+	custom_minimum_size = tela
+	size = tela
 	_construir()
 	_mostrar_selecao_classe()
 
@@ -103,7 +108,7 @@ func _construir() -> void:
 	# mão
 	_mao = HBoxContainer.new()
 	_mao.alignment = BoxContainer.ALIGNMENT_CENTER
-	_mao.custom_minimum_size = Vector2(0, 230)
+	_mao.custom_minimum_size = Vector2(5 * 172 + 4 * 10, 230)  # reserva o espaço de 5 cartas
 	_mao.add_theme_constant_override("separation", 10)
 	raiz.add_child(_mao)
 
@@ -134,7 +139,7 @@ func _construir_overlay() -> void:
 	_overlay.add_child(centro)
 	var caixa := VBoxContainer.new()
 	caixa.add_theme_constant_override("separation", 12)
-	caixa.custom_minimum_size = Vector2(420, 0)
+	caixa.custom_minimum_size = Vector2(640, 0)
 	_overlay_titulo = _novo_label(32)
 	_overlay_titulo.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	_overlay_texto = _novo_label(18)
@@ -180,10 +185,24 @@ func _mostrar_selecao_classe() -> void:
 	for c in GameManager.CLASSES:
 		var dados: ClassData = GameManager.CLASSES[c]
 		opcoes.append({
-			"texto": "%s  (HP %d, CA %d)" % [dados.nome, dados.stats.hp_max, dados.stats.ca],
+			"texto": _texto_classe(dados),
 			"acao": _ao_escolher_classe.bind(c),
 		})
 	_mostrar_overlay("Cartas & Cartas", "Escolha sua classe", opcoes)
+
+
+func _texto_classe(dados: ClassData) -> String:
+	var s := dados.stats
+	var texto := "%s   (HP %d • CA %d • d%d de vida)\n" % [dados.nome, s.hp_max, s.ca, dados.dado_vida]
+	var attrs := ""
+	for a in Enums.Atributo.values():
+		var mod := s.modificador(a)
+		attrs += "%s %d (%s)   " % [Enums.Atributo.keys()[a], s.valor_atributo(a), ("+%d" % mod) if mod >= 0 else str(mod)]
+	texto += attrs.strip_edges() + "\nCartas: "
+	var lista: Array[String] = []
+	for carta in dados.cartas:
+		lista.append("%dx %s" % [carta.copias_iniciais, carta.nome])
+	return texto + ", ".join(lista)
 
 
 func _ao_escolher_classe(classe: Enums.Classe) -> void:
@@ -236,7 +255,8 @@ func _mostrar_overlay(titulo: String, texto: String, opcoes: Array[Dictionary]) 
 	for op in opcoes:
 		var b := Button.new()
 		b.text = op["texto"]
-		b.custom_minimum_size = Vector2(0, 44)
+		b.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		b.custom_minimum_size = Vector2(0, 44 if opcoes.size() == 1 else 110)
 		b.pressed.connect(op["acao"])
 		_overlay_botoes.add_child(b)
 	_overlay.show()
@@ -249,7 +269,8 @@ func _redesenhar() -> void:
 		return
 	var ini := _cm.inimigo
 	var ini_stats := _cm.inimigo_stats
-	_lbl_inimigo_nome.text = ini.nome + ("  [CHEFE]" if ini.eh_chefe else "")
+	_lbl_inimigo_nome.text = ini.nome + "  (" + Enums.TipoCriatura.keys()[ini.tipo_criatura].capitalize().replace("_", " ") + ")" \
+		+ ("  [CHEFE]" if ini.eh_chefe else "")
 	_barra_inimigo.max_value = ini_stats.hp_max
 	_barra_inimigo.value = ini_stats.hp_atual
 	var info := "HP %d/%d   CA %d   Ataque +%d, %dd%d" % [ini_stats.hp_atual, ini_stats.hp_max,

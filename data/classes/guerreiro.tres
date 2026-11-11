@@ -11,7 +11,7 @@
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
-forca = 15
+forca = 17
 destreza = 13
 constituicao = 14
 inteligencia = 8

@@ -14,6 +14,7 @@ ca = 10
 script = ExtResource("1_enemy")
 id = "rato_esgoto"
 nome = "Rato de Esgoto Mutante"
+tipo_criatura = 4
 descricao = "Fase 1. Rápido e fraco, mas teme o fogo."
 stats = SubResource("Resource_stats")
 bonus_ataque = 2

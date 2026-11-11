@@ -13,6 +13,6 @@ tipo_dano = 4
 qtd_dados = 2
 faces_dado = 8
 atributo_usado = 3
-penalidade_acerto = 2
+penalidade_acerto = 1
 nivel_magia = 1
 metadata/_custom_type_script = "uid://utuhllcodric"

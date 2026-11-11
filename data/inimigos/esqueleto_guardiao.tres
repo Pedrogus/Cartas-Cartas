@@ -14,6 +14,7 @@ ca = 13
 script = ExtResource("1_enemy")
 id = "esqueleto_guardiao"
 nome = "Esqueleto Guardião"
+tipo_criatura = 6
 descricao = "Fase 2. Ossos resistentes a lâminas, frágil a golpes pesados."
 stats = SubResource("Resource_stats")
 bonus_ataque = 3

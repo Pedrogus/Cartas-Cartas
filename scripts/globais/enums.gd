@@ -60,6 +60,18 @@ enum TipoAcao {
 	ACAO_BONUS,
 }
 
+## Tipo de criatura do inimigo (usado depois por cartas/Arcanos que dão bônus contra um tipo).
+## REGRA: valores novos entram SEMPRE no FINAL.
+enum TipoCriatura {
+	HUMANOIDE,
+	MONSTRUOSIDADE,
+	INFERNAL,
+	FERRICO,
+	FERA,
+	CONSTRUCTO,
+	MORTO_VIVO,
+}
+
 ## Físico ou Mágico? (usado depois no cálculo de tier e de resistência)
 static func eh_fisico(tipo: TipoDano) -> bool:
 	return tipo == TipoDano.CORTANTE \
