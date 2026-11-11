@@ -26,15 +26,9 @@ func _ready() -> void:
 	#var c := t.criar_copia_combate(5)
 	#c.receber_dano(20)
 	#print(t.bonus_proficiencia(), " ", t.modificador(Enums.Atributo.FOR), " ", c.hp_atual, " ", t.hp_atual, " ", c.esta_morto())
-	for pasta in ["guerreiro", "mago"]:
-		var total := 0
-		for arq in DirAccess.get_files_at("res://data/cartas/" + pasta):
-			if arq.ends_with(".tres"):
-				var c: CardData = load("res://data/cartas/%s/%s" % [pasta, arq])
-				total += c.copias_iniciais
-		print(pasta, ": ", total)
-	print((load("res://data/cartas/mago/misseis_magicos.tres") as CardData).texto_dado())
-	print((load("res://data/cartas/guerreiro/espada.tres") as CardData).texto_dado())
+	#for caminho in ["guerreiro", "mago"]:
+	#	var cl: ClassData = load("res://data/classes/%s.tres" % caminho)
+	#	print(cl.nome, " HP ", cl.stats.hp_max, " CA ", cl.stats.ca, " deck ", cl.montar_deck_inicial().size())
 
 
 

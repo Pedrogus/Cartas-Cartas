@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="ClassData" format=3]
+
+[ext_resource type="Script" path="res://scripts/dados/class_data.gd" id="1_class"]
+[ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="3_card"]
+[ext_resource type="Resource" path="res://data/cartas/mago/misseis_magicos.tres" id="10_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/orbe_fogo.tres" id="11_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/raio_gelo.tres" id="12_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/toque_chocante.tres" id="13_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/explosao_psiquica.tres" id="14_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/armadura_arcana.tres" id="15_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/escudo_arcano.tres" id="16_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/teia.tres" id="17_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/foco_mental.tres" id="18_c"]
+
+[sub_resource type="Resource" id="Resource_stats"]
+script = ExtResource("2_stats")
+forca = 8
+destreza = 14
+constituicao = 13
+inteligencia = 15
+sabedoria = 12
+carisma = 10
+hp_max = 7
+ca = 12
+
+[resource]
+script = ExtResource("1_class")
+nome = "Mago"
+descricao = "Conjurador frágil, mas com magias de vários tipos de dano."
+id = 1
+dado_vida = 6
+atributo_principal = 3
+stats = SubResource("Resource_stats")
+cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c"), ExtResource("15_c"), ExtResource("16_c"), ExtResource("17_c"), ExtResource("18_c")])
