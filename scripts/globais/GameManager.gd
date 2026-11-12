@@ -30,7 +30,9 @@ func _ready() -> void:
 	EventBus.game_over.connect(_on_game_over)
 	print("GameManager pronto")
 	# TesteDeck.rodar()  # teste manual da etapa 5 (descomente para rodar)
-	# TesteDeck.rodar_acoes()  # teste manual das ações (descomente para rodar)
+	# TesteDeck.rodar_acoes()
+	# TesteDeck.rodar_log()
+	# TesteDeck.rodar_inimigos()  # teste manual das ações (descomente para rodar)
 
 
 

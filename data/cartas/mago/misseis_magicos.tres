@@ -6,9 +6,9 @@
 script = ExtResource("1_card")
 id = "misseis_magicos"
 nome = "Mísseis Mágicos"
-descricao = "Acerto automático. 2d4 de dano de força."
+descricao = "Acerto automático."
 classe_origem = 1
-copias_iniciais = 4
+copias_iniciais = 3
 tipo_dano = 3
 qtd_dados = 2
 faces_dado = 4

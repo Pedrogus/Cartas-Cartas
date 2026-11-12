@@ -1,27 +1,24 @@
-[gd_resource type="Resource" script_class="EnemyData" format=3]
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://dnjvhgyxh1ytl"]
 
-[ext_resource type="Script" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://bkjoywi1w2074" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_u66a7"]
 [ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
+[ext_resource type="Resource" uid="uid://b8bvf4va5u1fr" path="res://data/classes/guerreiro.tres" id="3_classe"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
-destreza = 10
 inteligencia = 8
-hp_max = 8
+hp_max = 12
 ca = 13
 
 [resource]
 script = ExtResource("1_enemy")
 id = "esqueleto_guardiao"
 nome = "Esqueleto Guardião"
+descricao = "Fase 2. Ossos resistentes a qualquer golpe físico."
 tipo_criatura = 6
-descricao = "Fase 2. Ossos resistentes a lâminas, frágil a golpes pesados."
 stats = SubResource("Resource_stats")
-bonus_ataque = 3
-qtd_dados = 1
-faces_dado = 6
-tipo_dano = 0
 turnos_alvo = 4
-fraquezas = Array[int]([2])
-resistencias = Array[int]([0, 1])
+classe_do_deck = ExtResource("3_classe")
+resistencias = Array[int]([0, 1, 2])
 imunidades = Array[int]([9])

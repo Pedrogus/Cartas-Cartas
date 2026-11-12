@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardData" format=3]
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://bvkxehbl6b10m"]
 
 [ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
 
@@ -6,7 +6,7 @@
 script = ExtResource("1_card")
 id = "escudo_arcano"
 nome = "Escudo Arcano"
-descricao = "+3 de CA por 1 turno. Rerrola d20 de 1 ou 2."
+descricao = "+5 de CA por 1 turno. "
 classe_origem = 1
 tipo_carta = 1
 tipo_acao = 1
@@ -14,6 +14,6 @@ copias_iniciais = 1
 atributo_usado = 3
 nivel_magia = 1
 efeito = 9
-valor = 3
+valor = 5
 duracao_turnos = 1
 metadata/_custom_type_script = "uid://utuhllcodric"

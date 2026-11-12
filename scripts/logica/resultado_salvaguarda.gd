@@ -9,6 +9,8 @@ var cd: int = 0                   # dificuldade enfrentada
 var vantagem: bool = false        # o d20 foi rolado com vantagem
 var dano_bruto: int = 0           # dano rolado, antes de metade/resistência
 var dano_final: int = 0           # depois de metade e fraqueza/resistência
+var modificador: int = 0          # modificador do atributo da salvaguarda (para o log)
+var formula_dano: String = ""      # ex.: "1d10" (para o log)
 var turnos_perdidos: int = 0      # Teia: turnos que o inimigo perde (0 se passou)
 
 

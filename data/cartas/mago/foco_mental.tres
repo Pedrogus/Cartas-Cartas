@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardData" format=3]
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://c3v3je6uci371"]
 
 [ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
 
@@ -10,7 +10,7 @@ descricao = "Troca até 2 cartas extras sem gastar o limite."
 classe_origem = 1
 tipo_carta = 2
 tipo_acao = 1
-copias_iniciais = 2
+copias_iniciais = 1
 atributo_usado = 3
 efeito = 8
 valor = 2

@@ -89,6 +89,65 @@ static func _conferir(nome: String, condicao: bool) -> void:
 	print("[%s] %s" % ["OK" if condicao else "FALHOU", nome])
 
 
+## Teste manual do deck dos inimigos (GDD v3.2). Chame TesteDeck.rodar_inimigos() no _ready.
+static func rodar_inimigos() -> void:
+	_ok = 0
+	_total = 0
+	var rato: EnemyData = load("res://data/inimigos/rato_esgoto.tres")
+	var esq: EnemyData = load("res://data/inimigos/esqueleto_guardiao.tres")
+	var cult: EnemyData = load("res://data/inimigos/cultista_sombras.tres")
+	for e in [rato, esq, cult]:
+		_conferir("%s tem deck valido (>= 22)" % e.nome, e.deck_valido())
+		_conferir("%s: 1 acao e 1 acao bonus" % e.nome, e.acoes_por_turno == 1 and e.acoes_bonus_por_turno == 1)
+	var deck_rato := rato.montar_deck()
+	var so_mordida := true
+	for c in deck_rato:
+		if c.id != "mordida":
+			so_mordida = false
+	_conferir("Rato: 22 cartas, todas Mordida", deck_rato.size() == 22 and so_mordida)
+	_conferir("Esqueleto usa o deck do Guerreiro", esq.montar_deck().size() == GameManager.CLASSES[Enums.Classe.GUERREIRO].montar_deck_inicial().size())
+	_conferir("Cultista usa o deck do Mago", cult.montar_deck().size() == GameManager.CLASSES[Enums.Classe.MAGO].montar_deck_inicial().size())
+	var com_tier := rato.montar_deck_com_tier()
+	_conferir("deck com tier tem o mesmo tamanho", com_tier.size() == deck_rato.size())
+	_conferir("tier do inimigo nivel 1 = 0", com_tier[0].tier == 0)
+	print("Inimigos: %d/%d verificacoes OK" % [_ok, _total])
+
+
+## Teste manual do formato do log (GDD v3.2). Chame TesteDeck.rodar_log() no _ready.
+static func rodar_log() -> void:
+	_ok = 0
+	_total = 0
+	var espada: CardData = load("res://data/cartas/guerreiro/espada.tres")
+	var r := ResultadoAtaque.new()
+	r.acertou = true
+	r.d20 = 12
+	r.total_acerto = 17
+	r.bonus_proficiencia = 2
+	r.bonus_atributo = 3
+	r.ca_alvo = 10
+	var linha := LogCombate.ataque("Jogador", espada, r)
+	print(linha)
+	_conferir("ataque: Jogador -> Utilizou ESPADA", linha.begins_with("Jogador -> Utilizou ESPADA -> Tirou 12 (17 no total) (1d20 + 2 + 3)"))
+	_conferir("ataque: ACERTOU (CA 10)", linha.contains("ACERTOU") and linha.ends_with("(CA 10)"))
+	r.d20 = 20
+	r.critico = true
+	r.total_acerto = 25
+	linha = LogCombate.ataque("Jogador", espada, r)
+	print(linha)
+	_conferir("critico: Tirou 20 CRÍTICO (25 no total)", linha.contains("Tirou 20 CRÍTICO (25 no total)"))
+	var s := ResultadoSalvaguarda.new()
+	s.passou = true
+	s.d20 = 12
+	s.modificador = 5
+	s.total = 17
+	s.cd = 10
+	linha = LogCombate.salvaguarda("Jogador", Enums.Atributo.FOR, s)
+	print(linha)
+	_conferir("salvaguarda: Fez Salvaguarda de Força", linha.contains("Fez Salvaguarda de Força -> Tirou 12 (17 no total) (1d20 + 5)"))
+	_conferir("salvaguarda: ND 10", linha.ends_with("(ND 10)"))
+	print("Log: %d/%d verificacoes OK" % [_ok, _total])
+
+
 ## Teste manual da economia de ações (GDD v3.1). Chame TesteDeck.rodar_acoes() no _ready.
 static func rodar_acoes() -> void:
 	_ok = 0
@@ -99,7 +158,7 @@ static func rodar_acoes() -> void:
 		_conferir("nivel %d = %d acao(oes)" % [nivel, por_nivel[nivel]], GameManager.acoes_por_turno() == por_nivel[nivel])
 	GameManager.nivel = 1
 	var bonus := ["guerreiro/escudo_madeira", "guerreiro/grito_guerra", "mago/armadura_arcana",
-		"mago/escudo_arcano", "mago/foco_mental"]
+		"mago/escudo_arcano", "mago/foco_mental", "guerreiro/segundo_folego", "mago/recuperacao_arcana"]
 	var acao := ["guerreiro/espada", "guerreiro/golpe_pesado", "guerreiro/investida", "mago/misseis_magicos",
 		"mago/orbe_fogo", "mago/raio_gelo", "mago/toque_chocante", "mago/explosao_psiquica", "mago/teia"]
 	for caminho in bonus:

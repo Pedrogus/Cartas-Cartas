@@ -7,9 +7,12 @@ extends RefCounted
 
 ## Ataque do jogador com uma carta de dano por acerto (d20 vs CA).
 ## Cartas com salvaguarda (Bola de Fogo, Teia) NÃO passam por aqui: ver SavingThrowResolver (4d).
+## 'alvo' é o EnemyData quando o jogador ataca (fraqueza/resistência). Quando o INIMIGO ataca
+## o jogador, passe null: o jogador não tem fraqueza nem resistência.
 static func atacar_com_carta(carta: CardData, atacante: ActorStats, alvo: EnemyData, ca_alvo: int, mods: ModificadoresAtaque) -> ResultadoAtaque:
 	var r := ResultadoAtaque.new()
 	r.tipo_dano = carta.tipo_dano
+	r.ca_alvo = ca_alvo
 	if not carta.causa_dano() or carta.exige_salvaguarda:
 		return r
 
@@ -17,9 +20,13 @@ static func atacar_com_carta(carta: CardData, atacante: ActorStats, alvo: EnemyD
 		r.acertou = true
 		r.acerto_automatico = true
 	else:
-		var bonus := atacante.bonus_ataque(carta.atributo_usado) + mods.bonus_acerto - carta.penalidade_acerto
+		r.bonus_proficiencia = atacante.bonus_proficiencia()
+		r.bonus_atributo = atacante.modificador(carta.atributo_usado)
+		r.bonus_extra = mods.bonus_acerto - carta.penalidade_acerto
 		if Enums.eh_fisico(carta.tipo_dano):
-			bonus += _bonus_acerto_tier(mods.tier)
+			r.bonus_extra += _bonus_acerto_tier(mods.tier)
+		var bonus := r.bonus_proficiencia + r.bonus_atributo + r.bonus_extra
+		r.vantagem = mods.vantagem and not mods.desvantagem
 		r.d20 = _rolar_d20(mods.vantagem, mods.desvantagem)
 		if mods.rerrolar_ate > 0 and r.d20 <= mods.rerrolar_ate:
 			r.d20 = DiceRoller.d20()
@@ -35,48 +42,29 @@ static func atacar_com_carta(carta: CardData, atacante: ActorStats, alvo: EnemyD
 	r.dano_principal = principal
 	var extra := _rolar_dano_extra(mods, r.critico)
 	r.dano_bruto = principal + extra
-	r.dano_final = floori(principal * alvo.multiplicador_dano(carta.tipo_dano)) \
-		+ floori(extra * alvo.multiplicador_dano(mods.tipo_dano_extra))
+	r.formula_dano = formula_dano(carta, atacante, mods, r.critico)
+	var mult_principal := alvo.multiplicador_dano(carta.tipo_dano) if alvo != null else 1.0
+	var mult_extra := alvo.multiplicador_dano(mods.tipo_dano_extra) if alvo != null else 1.0
+	r.dano_final = floori(principal * mult_principal) + floori(extra * mult_extra)
 	return r
 
 
 ## Rola só o dano da carta (sem fraqueza/resistência). Também usada pela 4d (Bola de Fogo).
 static func rolar_dano(carta: CardData, atacante: ActorStats, mods: ModificadoresAtaque, critico: bool) -> int:
-	var qtd := carta.qtd_dados
-	if carta.nivel_magia > 0:
-		qtd += floori(mods.tier / 2.0)  # espaço de magia maior: +1 dado a cada 2 tiers
-	if critico:
-		qtd *= 2                         # crítico dobra os dados, não o bônus fixo
-	var total := DiceRoller.rolar(qtd, carta.faces_dado)
-	total += carta.bonus_dano_fixo + mods.bonus_dano
-	if carta.soma_atributo_no_dano:
-		total += atacante.modificador(carta.atributo_usado)
-	if Enums.eh_fisico(carta.tipo_dano):
-		total += mods.tier               # físico: +1 de dano por tier
+	var total := DiceRoller.rolar(_qtd_dados(carta, mods, critico), carta.faces_dado)
+	total += _bonus_fixo_dano(carta, atacante, mods)
 	return maxi(total, 0)
 
 
-## Ataque de inimigo: d20 + bônus_ataque contra a CA atual do jogador.
-static func atacar_com_inimigo(inimigo: EnemyData, ca_jogador: int, vantagem: bool = false, desvantagem: bool = false) -> ResultadoAtaque:
-	return rolar_ataque_simples(inimigo.bonus_ataque, inimigo.qtd_dados, inimigo.faces_dado, 0,
-		inimigo.tipo_dano, ca_jogador, vantagem, desvantagem)
-
-
-## Ataque só com números. Serve ao ataque comum do inimigo e, na etapa 7, a ataques especiais
-## (ex.: Explosão Sombria = bônus 6, 2d6 necrótico). O jogador não tem fraqueza/resistência.
-static func rolar_ataque_simples(bonus_ataque: int, qtd_dados: int, faces: int, bonus_dano: int,
-		tipo: Enums.TipoDano, ca_alvo: int, vantagem: bool = false, desvantagem: bool = false) -> ResultadoAtaque:
-	var r := ResultadoAtaque.new()
-	r.tipo_dano = tipo
-	r.d20 = _rolar_d20(vantagem, desvantagem)
-	r.total_acerto = r.d20 + bonus_ataque
-	r.critico = r.d20 == 20
-	r.acertou = r.critico or (r.d20 != 1 and r.total_acerto >= ca_alvo)
-	if r.acertou:
-		var qtd := qtd_dados * 2 if r.critico else qtd_dados
-		r.dano_bruto = maxi(DiceRoller.rolar(qtd, faces) + bonus_dano, 0)
-		r.dano_final = r.dano_bruto
-	return r
+## Texto da conta do dano para o log: "1d6 + 3", "2d4", "4d4 - 1" (crítico dobra os dados).
+static func formula_dano(carta: CardData, atacante: ActorStats, mods: ModificadoresAtaque, critico: bool) -> String:
+	var texto := "%dd%d" % [_qtd_dados(carta, mods, critico), carta.faces_dado]
+	var fixo := _bonus_fixo_dano(carta, atacante, mods)
+	if fixo > 0:
+		texto += " + %d" % fixo
+	elif fixo < 0:
+		texto += " - %d" % absi(fixo)
+	return texto
 
 
 ## Tier do jogador a partir do nível: 0 a 9 (sobe a cada 2 níveis).
@@ -85,6 +73,24 @@ static func tier_do_nivel(nivel: int) -> int:
 
 
 # --- internas ---
+
+static func _qtd_dados(carta: CardData, mods: ModificadoresAtaque, critico: bool) -> int:
+	var qtd := carta.qtd_dados
+	if carta.nivel_magia > 0:
+		qtd += floori(mods.tier / 2.0)  # espaço de magia maior: +1 dado a cada 2 tiers
+	if critico:
+		qtd *= 2                         # crítico dobra os dados, não o bônus fixo
+	return qtd
+
+
+static func _bonus_fixo_dano(carta: CardData, atacante: ActorStats, mods: ModificadoresAtaque) -> int:
+	var fixo := carta.bonus_dano_fixo + mods.bonus_dano
+	if carta.soma_atributo_no_dano:
+		fixo += atacante.modificador(carta.atributo_usado)
+	if Enums.eh_fisico(carta.tipo_dano):
+		fixo += mods.tier                # físico: +1 de dano por tier
+	return fixo
+
 
 ## Acerto extra das cartas físicas: +floor((tier+1)/3), máximo +3.
 static func _bonus_acerto_tier(tier: int) -> int:

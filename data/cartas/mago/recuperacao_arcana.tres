@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "recuperacao_arcana"
+nome = "Recuperação Arcana"
+descricao = "Devolve metade do nível (arredonda para cima) de cartas usadas à pilha, embaralhada."
+classe_origem = 1
+tipo_carta = 2
+tipo_acao = 1
+copias_iniciais = 2
+atributo_usado = 3
+efeito = 11
+valor = 2
+metadata/_custom_type_script = "uid://utuhllcodric"

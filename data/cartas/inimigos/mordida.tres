@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "mordida"
+nome = "Mordida"
+descricao = "Mordida. 1d4 de dano perfurante."
+tipo_carta = 0
+copias_iniciais = 22
+tipo_dano = 1
+qtd_dados = 1
+faces_dado = 4
+atributo_usado = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

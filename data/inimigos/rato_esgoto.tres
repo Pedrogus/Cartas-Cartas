@@ -1,25 +1,21 @@
-[gd_resource type="Resource" script_class="EnemyData" format=3]
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://dk5m7ias5h3ue"]
 
-[ext_resource type="Script" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://bkjoywi1w2074" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
 [ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="3_card"]
+[ext_resource type="Resource" path="res://data/cartas/inimigos/mordida.tres" id="4_mordida"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
 destreza = 14
-inteligencia = 10
 hp_max = 15
-ca = 10
 
 [resource]
 script = ExtResource("1_enemy")
 id = "rato_esgoto"
 nome = "Rato de Esgoto Mutante"
-tipo_criatura = 4
 descricao = "Fase 1. Rápido e fraco, mas teme o fogo."
+tipo_criatura = 4
 stats = SubResource("Resource_stats")
-bonus_ataque = 2
-qtd_dados = 1
-faces_dado = 4
-tipo_dano = 1
-turnos_alvo = 3
+cartas_proprias = Array[ExtResource("3_card")]([ExtResource("4_mordida")])
 fraquezas = Array[int]([5])

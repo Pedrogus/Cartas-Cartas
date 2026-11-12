@@ -273,8 +273,8 @@ func _redesenhar() -> void:
 		+ ("  [CHEFE]" if ini.eh_chefe else "")
 	_barra_inimigo.max_value = ini_stats.hp_max
 	_barra_inimigo.value = ini_stats.hp_atual
-	var info := "HP %d/%d   CA %d   Ataque +%d, %dd%d" % [ini_stats.hp_atual, ini_stats.hp_max,
-		ini_stats.ca, ini.bonus_ataque, ini.qtd_dados, ini.faces_dado]
+	var info := "HP %d/%d   CA %d   Baralho %d • Mão %d • Descarte %d" % [ini_stats.hp_atual, ini_stats.hp_max,
+		_cm.ca_inimigo(), _cm.deck_inimigo.pilha.size(), _cm.deck_inimigo.mao.size(), _cm.deck_inimigo.descarte.size()]
 	info += _linha_tipos("Fraco", ini.fraquezas) + _linha_tipos("Resiste", ini.resistencias) \
 		+ _linha_tipos("Imune", ini.imunidades)
 	if _cm.turnos_inimigo_perdidos > 0:
@@ -299,6 +299,8 @@ func _redesenhar() -> void:
 		_lbl_jogador_info.text += "\nPróximo ataque: +%d no d20" % _cm.bonus_acerto_proxima
 	if _cm.rerrolar_ate > 0:
 		_lbl_jogador_info.text += "\nRerrola d20 de 1 ou 2"
+	if _cm.turnos_jogador_perdidos > 0:
+		_lbl_jogador_info.text += "\nPRESO: perde %d turno(s)" % _cm.turnos_jogador_perdidos
 
 	_lbl_pilha.text = "Pilha: %d\nDescarte: %d\nMão: %d" % [_cm.deck.pilha.size(),
 		_cm.deck.descarte.size(), _cm.deck.mao.size()]

@@ -61,6 +61,37 @@ func trocar_carta(carta: CartaNoDeck) -> bool:
 	return true
 
 
+## Recuperação Arcana: devolve até qtd cartas ESCOLHIDAS AO ACASO do descarte para a pilha e
+## embaralha a pilha. 'excluir' (a própria carta jogada) não volta. Retorna quantas voltaram.
+func recuperar_do_descarte(qtd: int, excluir: CartaNoDeck = null) -> int:
+	var candidatas: Array[CartaNoDeck] = []
+	for c in descarte:
+		if c != excluir:
+			candidatas.append(c)
+	DiceRoller.embaralhar(candidatas)
+	var voltou := mini(qtd, candidatas.size())
+	for i in voltou:
+		descarte.erase(candidatas[i])
+		pilha.append(candidatas[i])
+	if voltou > 0:
+		DiceRoller.embaralhar(pilha)
+		mao_alterada.emit()
+	return voltou
+
+
+## Inimigo: quando a pilha acaba, o descarte inteiro volta embaralhado para a pilha.
+## Retorna quantas cartas voltaram. (O jogador NÃO usa isto: sem reembaralhar na fase.)
+func reciclar_descarte() -> int:
+	var voltou := descarte.size()
+	if voltou == 0:
+		return 0
+	pilha.append_array(descarte)
+	descarte.clear()
+	DiceRoller.embaralhar(pilha)
+	mao_alterada.emit()
+	return voltou
+
+
 ## Game Over por falta de cartas: mão e pilha vazias (o descarte não conta).
 func sem_cartas() -> bool:
 	return mao.is_empty() and pilha.is_empty()

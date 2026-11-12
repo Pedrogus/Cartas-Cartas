@@ -51,6 +51,8 @@ enum Efeito {
 	COMPRAR_SE_DADO_PAR,     # Toque Chocante: compra valor carta(s) se o dado de dano for par
 	MULLIGAN_EXTRA,          # Foco Mental: troca até valor cartas sem gastar o limite
 	BONUS_CA_E_REROLAR,      # Escudo Arcano: +valor CA e rerrola d20 de 1 ou 2
+	CURAR_DADO,              # Segundo Fôlego: cura 1d(valor) + nível + tier
+	RECUPERAR_DESCARTE,      # Recuperação Arcana: devolve ⌈nível ÷ valor⌉ cartas do descarte à pilha
 }
 
 ## Que tipo de ação a carta gasta no turno.

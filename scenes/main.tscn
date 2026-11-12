@@ -4,4 +4,4 @@
 
 [node name="Main" type="Node2D" unique_id=565477525]
 
-[node name="Combate" parent="." instance=ExtResource("1_combate")]
+[node name="Combate" parent="." unique_id=1331398510 instance=ExtResource("1_combate")]

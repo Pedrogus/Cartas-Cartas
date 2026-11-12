@@ -13,6 +13,13 @@ var rerrolou: bool = false            # o d20 foi rerrolado (Escudo Arcano)
 var dano_bruto: int = 0               # antes de fraqueza/resistência
 var dano_final: int = 0               # depois de fraqueza/resistência (mínimo 0)
 var tipo_dano: Enums.TipoDano = Enums.TipoDano.CORTANTE
+# Para o log (LogCombate): como o total do d20 foi montado.
+var vantagem: bool = false            # o d20 foi rolado com vantagem
+var bonus_proficiencia: int = 0
+var bonus_atributo: int = 0           # modificador do atributo da carta
+var bonus_extra: int = 0              # tier, buffs (Grito/Mente Tática) e penalidade
+var ca_alvo: int = 0
+var formula_dano: String = ""         # ex.: "1d6 + 3" (já com dados dobrados no crítico)
 
 
 ## Texto curto para depuração e para o log de combate.

@@ -1,27 +1,26 @@
 [gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://b174yqpw4rpm2"]
 
 [ext_resource type="Script" uid="uid://bkjoywi1w2074" path="res://scripts/dados/enemy_data.gd" id="1_enemy"]
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_pu60e"]
 [ext_resource type="Script" uid="uid://crhaly5yx7ipc" path="res://scripts/dados/actor_stats.gd" id="2_stats"]
+[ext_resource type="Resource" uid="uid://bojxdbey3op0w" path="res://data/classes/mago.tres" id="3_classe"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
 destreza = 12
 inteligencia = 14
-hp_max = 16
+hp_max = 24
 ca = 8
 
 [resource]
 script = ExtResource("1_enemy")
 id = "cultista_sombras"
 nome = "Cultista das Sombras"
-tipo_criatura = 0
 descricao = "Chefe do ciclo 1. Canaliza energia sombria."
 eh_chefe = true
 stats = SubResource("Resource_stats")
 turnos_alvo = 5
-bonus_ataque = 4
-faces_dado = 8
-tipo_dano = 9
-fraquezas = Array[int]([8])
+classe_do_deck = ExtResource("3_classe")
+fraquezas = Array[int]([2])
 resistencias = Array[int]([9])
-habilidades = "Maldição Temporal: bane 1 carta da mão no início do turno 2. Explosão Sombria (telegrafada 1 turno antes): ataque +6, 2d6 necrótico."
+habilidades = "Maldição Temporal: bane 1 carta da mão no início do turno 2."
