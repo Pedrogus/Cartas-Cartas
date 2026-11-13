@@ -29,13 +29,12 @@ var stats_jogador: ActorStats
 func _ready() -> void:
 	EventBus.game_over.connect(_on_game_over)
 	print("GameManager pronto")
-	# TesteDeck.rodar()  # teste manual da etapa 5 (descomente para rodar)
-	# TesteDeck.rodar_acoes()
-	# TesteDeck.rodar_log()
-	# TesteDeck.rodar_inimigos()  # teste manual das ações (descomente para rodar)
-
-
-
+#	TesteDeck.rodar()  # teste manual da etapa 5 (descomente para rodar)
+#	TesteDeck.rodar_acoes()
+#	TesteDeck.rodar_cartas()
+#	TesteDeck.rodar_log()
+#	TesteDeck.rodar_multi()  # múltiplos alvos
+#	TesteDeck.rodar_inimigos()  # teste manual das ações (descomente para rodar)
 
 func nova_run(classe_escolhida: Enums.Classe) -> void:
 	classe = classe_escolhida

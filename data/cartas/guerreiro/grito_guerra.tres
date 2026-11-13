@@ -6,10 +6,10 @@
 script = ExtResource("1_card")
 id = "grito_guerra"
 nome = "Grito de Guerra"
-descricao = "+2 no d20 da próxima carta de ataque."
+descricao = "+2 no d20 da próxima carta de ataque. (Fora do deck: substituído pela Mente Tática.)"
 tipo_carta = 2
 tipo_acao = 1
-copias_iniciais = 4
+alvo = 3
 efeito = 6
 valor = 2
 metadata/_custom_type_script = "uid://utuhllcodric"

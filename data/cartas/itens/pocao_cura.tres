@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "pocao_cura"
+nome = "Poção de Cura"
+descricao = "Cura 1d4+2 de HP."
+tipo_carta = 2
+tipo_acao = 1
+alvo = 3
+categoria = 1
+qtd_dados = 1
+faces_dado = 4
+bonus_dano_fixo = 2
+efeito = 10
+metadata/_custom_type_script = "uid://utuhllcodric"

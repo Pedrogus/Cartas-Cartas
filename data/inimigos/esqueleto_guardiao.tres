@@ -14,7 +14,7 @@ ca = 13
 [resource]
 script = ExtResource("1_enemy")
 id = "esqueleto_guardiao"
-nome = "Esqueleto Guardião"
+nome = "Guerreiro Morto-vivo"
 descricao = "Fase 2. Ossos resistentes a qualquer golpe físico."
 tipo_criatura = 6
 stats = SubResource("Resource_stats")

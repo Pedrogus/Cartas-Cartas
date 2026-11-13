@@ -53,6 +53,25 @@ enum Efeito {
 	BONUS_CA_E_REROLAR,      # Escudo Arcano: +valor CA e rerrola d20 de 1 ou 2
 	CURAR_DADO,              # Segundo Fôlego: cura 1d(valor) + nível + tier
 	RECUPERAR_DESCARTE,      # Recuperação Arcana: devolve ⌈nível ÷ valor⌉ cartas do descarte à pilha
+	ACAO_EXTRA,              # Surto de Ação: +valor ação(ões) neste turno
+	AUMENTO_ATRIBUTO,        # Poções: +valor no atributo_usado por duracao_turnos
+}
+
+## Quem a carta afeta. UNICO: um inimigo (o alvo atual). TODOS: todos os inimigos.
+## DIVIDIDO: os dardos/partes da carta são divididos entre os inimigos. JOGADOR: só o jogador.
+## REGRA: valores novos entram SEMPRE no FINAL.
+enum AlvoCarta {
+	UNICO,
+	TODOS,
+	DIVIDIDO,
+	JOGADOR,
+}
+
+## De onde a carta vem: das cartas de classe, de itens (poções) ou de relíquias mágicas.
+enum CategoriaCarta {
+	CLASSE,
+	ITEM,
+	RELIQUIA,
 }
 
 ## Que tipo de ação a carta gasta no turno.

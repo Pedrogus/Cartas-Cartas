@@ -19,18 +19,21 @@ extends Resource
 
 ## HP em jogo. Não é exportado: só existe na cópia de combate.
 var hp_atual: int = 0
+## Bônus temporários de atributo em combate (poções). {Enums.Atributo: valor}. Não vai para o .tres.
+var bonus_atributos: Dictionary = {}
 
 
 ## Valor bruto do atributo (ex.: 16).
 func valor_atributo(atributo: Enums.Atributo) -> int:
+	var base := 10
 	match atributo:
-		Enums.Atributo.FOR: return forca
-		Enums.Atributo.DES: return destreza
-		Enums.Atributo.CON: return constituicao
-		Enums.Atributo.INT: return inteligencia
-		Enums.Atributo.SAB: return sabedoria
-		Enums.Atributo.CAR: return carisma
-	return 10
+		Enums.Atributo.FOR: base = forca
+		Enums.Atributo.DES: base = destreza
+		Enums.Atributo.CON: base = constituicao
+		Enums.Atributo.INT: base = inteligencia
+		Enums.Atributo.SAB: base = sabedoria
+		Enums.Atributo.CAR: base = carisma
+	return base + int(bonus_atributos.get(atributo, 0))
 
 
 ## Modificador D&D: (valor - 10) / 2, arredondado para baixo. 16 -> +3, 8 -> -1.

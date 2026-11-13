@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CardData" format=3]
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://dii8ejhynmm6r"]
 
 [ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
 
@@ -13,7 +13,6 @@ copias_iniciais = 2
 atributo_usado = 3
 nivel_magia = 1
 exige_salvaguarda = true
-atributo_salvaguarda = 1
 efeito = 5
 valor = 2
 metadata/_custom_type_script = "uid://utuhllcodric"

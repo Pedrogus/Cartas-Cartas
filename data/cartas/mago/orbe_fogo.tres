@@ -6,8 +6,9 @@
 script = ExtResource("1_card")
 id = "orbe_fogo"
 nome = "Orbe de Fogo"
-descricao = "2d10 de dano de fogo."
+descricao = "2d10 de dano de fogo em todos os inimigos."
 classe_origem = 1
+alvo = 1
 copias_iniciais = 3
 tipo_dano = 5
 qtd_dados = 2

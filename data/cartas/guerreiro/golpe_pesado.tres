@@ -6,10 +6,11 @@
 script = ExtResource("1_card")
 id = "golpe_pesado"
 nome = "Golpe Pesado"
-descricao = "Golpe brutal, -2 no acerto. 1d10 + FOR de dano contundente."
+descricao = "Golpe brutal. 1d10 + FOR de dano contundente."
 copias_iniciais = 3
 tipo_dano = 2
 qtd_dados = 1
 faces_dado = 10
 soma_atributo_no_dano = true
+nivel_magia = 1
 metadata/_custom_type_script = "uid://utuhllcodric"

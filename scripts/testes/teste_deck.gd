@@ -70,7 +70,7 @@ static func rodar() -> void:
 	_conferir("deck chega a 30", GameManager.deck_da_run.size() == 30)
 	_conferir("31a carta recusada com deck cheio", not GameManager.adicionar_carta(espada))
 	_conferir("substituir carta mantem 30", GameManager.substituir_carta(0, espada) and GameManager.deck_da_run.size() == 30)
-	_conferir("deck do Guerreiro tem 22", _deck_da_classe(Enums.Classe.GUERREIRO) == 22)
+	_conferir("deck do Guerreiro tem 23", _deck_da_classe(Enums.Classe.GUERREIRO) == 23)
 
 	GameManager.nova_run(Enums.Classe.GUERREIRO)  # volta o estado da run
 	DiceRoller.aleatorizar()  # o teste fixou a semente; volta ao sorteio de verdade
@@ -148,6 +148,122 @@ static func rodar_log() -> void:
 	print("Log: %d/%d verificacoes OK" % [_ok, _total])
 
 
+## Teste manual dos múltiplos alvos (GDD v3.2). Chame TesteDeck.rodar_multi() no _ready.
+static func rodar_multi() -> void:
+	_ok = 0
+	_total = 0
+	DiceRoller.definir_semente(11)
+	var rato: EnemyData = load("res://data/inimigos/rato_esgoto.tres")
+	var esqueleto: EnemyData = load("res://data/inimigos/esqueleto_guardiao.tres")
+	GameManager.nova_run(Enums.Classe.GUERREIRO)
+
+	var par: Array[EnemyData] = [rato, rato]
+	var cm := CombatManager.new()
+	var linhas: Array[String] = []
+	cm.log_adicionado.connect(func(t: String) -> void: linhas.append(t))
+	cm.iniciar(par)
+	_conferir("2 inimigos, nomes numerados", cm.inimigos.size() == 2 and cm.inimigos[0].nome.ends_with(" 1") and cm.inimigos[1].nome.ends_with(" 2"))
+	_conferir("rato tem 9 de HP e CA 10", cm.inimigos[0].stats.hp_max == 9 and cm.inimigos[0].ca() == 10)
+	_conferir("alvo inicial = primeiro", cm.alvo_atual == cm.inimigos[0])
+	_conferir("selecionar_alvo(1) funciona", cm.selecionar_alvo(1) and cm.alvo_atual == cm.inimigos[1])
+	_conferir("selecionar_alvo(5) recusa", not cm.selecionar_alvo(5))
+
+	# TODOS (Orbe de Fogo): 1 linha de ataque por inimigo, 1 ação gasta
+	cm.acoes_restantes = 5
+	var orbe: CardData = load("res://data/cartas/mago/orbe_fogo.tres")
+	var cn_orbe := CartaNoDeck.new(orbe, 0)
+	cm.deck.mao.append(cn_orbe)
+	linhas.clear()
+	cm.jogar_carta(cn_orbe)
+	var n_orbe := 0
+	for l in linhas:
+		if l.contains("Utilizou ORBE_FOGO"):
+			n_orbe += 1
+	print("\n".join(linhas))
+	_conferir("TODOS: uma linha de ataque por inimigo", n_orbe == 2)
+	_conferir("TODOS: gasta 1 ação só", cm.acoes_restantes == 4)
+
+	# DIVIDIDO (Mísseis): 2 dardos de acerto automático, cada um causa pelo menos 1
+	var cm2 := CombatManager.new()
+	cm2.iniciar(par)
+	cm2.acoes_restantes = 5
+	var hp_antes := 0
+	for e in cm2.inimigos:
+		hp_antes += e.stats.hp_atual
+	var misseis: CardData = load("res://data/cartas/mago/misseis_magicos.tres")
+	var cn_m := CartaNoDeck.new(misseis, 0)
+	cm2.deck.mao.append(cn_m)
+	cm2.jogar_carta(cn_m)
+	var hp_depois := 0
+	for e in cm2.inimigos:
+		hp_depois += e.stats.hp_atual
+	var perdido := hp_antes - hp_depois
+	_conferir("DIVIDIDO: 2 dardos causam entre 2 e 8 no total (%d)" % perdido, perdido >= 2 and perdido <= 8)
+	_conferir("DIVIDIDO: o segundo dardo cai no outro inimigo",
+		cm2.inimigos[0].stats.hp_atual < 9 and cm2.inimigos[1].stats.hp_atual < 9)
+
+	# ordem de iniciativa: DES maior age primeiro
+	var misto: Array[EnemyData] = [esqueleto, rato]
+	var cm3 := CombatManager.new()
+	cm3.iniciar(misto)
+	var ordem := cm3.ordem_de_iniciativa()
+	_conferir("iniciativa: Rato (DES 14) antes do Morto-vivo", ordem[0].data == rato and ordem[1].data == esqueleto)
+
+	# morte do alvo passa a seleção para o próximo vivo
+	cm3.alvo_atual = cm3.inimigos[0]
+	cm3.inimigos[0].stats.hp_atual = 1
+	cm3._causar_dano_no_inimigo(cm3.inimigos[0], 5, Enums.TipoDano.FOGO, false)
+	_conferir("alvo morto: seleção vai para o próximo vivo", cm3.alvo_atual == cm3.inimigos[1] and not cm3.inimigos[0].vivo())
+	_conferir("não seleciona inimigo morto", not cm3.selecionar_alvo(0))
+	print("Multi: %d/%d verificacoes OK" % [_ok, _total])
+	for c in [cm, cm2, cm3]:
+		c.free()
+
+
+## Teste manual das cartas novas e efeitos (planilha v2). Chame TesteDeck.rodar_cartas() no _ready.
+static func rodar_cartas() -> void:
+	_ok = 0
+	_total = 0
+	var mente: CardData = load("res://data/cartas/guerreiro/mente_tatica.tres")
+	var folego: CardData = load("res://data/cartas/guerreiro/segundo_folego.tres")
+	var surto: CardData = load("res://data/cartas/guerreiro/surto_acao.tres")
+	var orbe: CardData = load("res://data/cartas/mago/orbe_fogo.tres")
+	var misseis: CardData = load("res://data/cartas/mago/misseis_magicos.tres")
+	var teia: CardData = load("res://data/cartas/mago/teia.tres")
+	var explosao: CardData = load("res://data/cartas/mago/explosao_psiquica.tres")
+	var parar: CardData = load("res://data/cartas/mago/parar_tempo.tres")
+	_conferir("Mente Tatica: bonus de acerto por dado, nao e ataque", mente.efeito == Enums.Efeito.BONUS_ACERTO_PROXIMA and mente.qtd_dados == 1 and not mente.causa_dano())
+	_conferir("Segundo Folego cura por dado, nao e ataque", folego.efeito == Enums.Efeito.CURAR_DADO and folego.qtd_dados == 1 and not folego.causa_dano())
+	_conferir("Surto de Acao: acao bonus, ACAO_EXTRA, alvo jogador", surto.efeito == Enums.Efeito.ACAO_EXTRA and surto.tipo_acao == Enums.TipoAcao.ACAO_BONUS and surto.alvo == Enums.AlvoCarta.JOGADOR)
+	_conferir("Orbe de Fogo atinge TODOS", orbe.alvo == Enums.AlvoCarta.TODOS)
+	_conferir("Misseis Magicos DIVIDIDO", misseis.alvo == Enums.AlvoCarta.DIVIDIDO)
+	_conferir("Teia atinge UNICO", teia.alvo == Enums.AlvoCarta.UNICO)
+	_conferir("Parar o Tempo: nivel 9, todos, 0 copias", parar.nivel_magia == 9 and parar.alvo == Enums.AlvoCarta.TODOS and parar.copias_iniciais == 0)
+	var pocoes := ["cura", "forca", "destreza", "constituicao", "inteligencia", "sabedoria", "carisma"]
+	for nome in pocoes:
+		var c: CardData = load("res://data/cartas/itens/pocao_%s.tres" % nome)
+		_conferir("pocao_%s e item, bonus, jogador" % nome, c.categoria == Enums.CategoriaCarta.ITEM and c.tipo_acao == Enums.TipoAcao.ACAO_BONUS and c.alvo == Enums.AlvoCarta.JOGADOR)
+	var st := ActorStats.new()
+	st.forca = 10
+	_conferir("FOR 10 = +0", st.modificador(Enums.Atributo.FOR) == 0)
+	st.bonus_atributos[Enums.Atributo.FOR] = 2
+	_conferir("bonus temporario +2 em FOR = FOR 12 (+1)", st.valor_atributo(Enums.Atributo.FOR) == 12 and st.modificador(Enums.Atributo.FOR) == 1)
+	# Explosao Psiquica: salvaguarda de INT com metade do dano; ninguem toma 0 de dano
+	var mago := ActorStats.new()
+	mago.inteligencia = 17
+	var alvo := ActorStats.new()
+	var sempre_ao_menos_1 := true
+	var passou_alguma_vez := false
+	for i in 300:
+		var r := SavingThrowResolver.salvaguarda_do_jogador_contra_carta(explosao, mago, alvo, ModificadoresAtaque.new())
+		if r.passou:
+			passou_alguma_vez = true
+		if r.dano_final < 1:
+			sempre_ao_menos_1 = false
+	_conferir("Explosao Psiquica: passou na salvaguarda toma metade (>= 1)", passou_alguma_vez and sempre_ao_menos_1)
+	print("Cartas: %d/%d verificacoes OK" % [_ok, _total])
+
+
 ## Teste manual da economia de ações (GDD v3.1). Chame TesteDeck.rodar_acoes() no _ready.
 static func rodar_acoes() -> void:
 	_ok = 0
@@ -157,7 +273,7 @@ static func rodar_acoes() -> void:
 		GameManager.nivel = nivel
 		_conferir("nivel %d = %d acao(oes)" % [nivel, por_nivel[nivel]], GameManager.acoes_por_turno() == por_nivel[nivel])
 	GameManager.nivel = 1
-	var bonus := ["guerreiro/escudo_madeira", "guerreiro/grito_guerra", "mago/armadura_arcana",
+	var bonus := ["guerreiro/escudo_madeira", "guerreiro/mente_tatica", "guerreiro/surto_acao", "mago/armadura_arcana",
 		"mago/escudo_arcano", "mago/foco_mental", "guerreiro/segundo_folego", "mago/recuperacao_arcana"]
 	var acao := ["guerreiro/espada", "guerreiro/golpe_pesado", "guerreiro/investida", "mago/misseis_magicos",
 		"mago/orbe_fogo", "mago/raio_gelo", "mago/toque_chocante", "mago/explosao_psiquica", "mago/teia"]

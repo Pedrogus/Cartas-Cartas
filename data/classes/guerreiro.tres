@@ -6,9 +6,10 @@
 [ext_resource type="Resource" uid="uid://cavikt3diisog" path="res://data/cartas/guerreiro/espada.tres" id="10_c"]
 [ext_resource type="Resource" uid="uid://copkyblwwt1nf" path="res://data/cartas/guerreiro/golpe_pesado.tres" id="11_c"]
 [ext_resource type="Resource" uid="uid://d385d6lw0uj5p" path="res://data/cartas/guerreiro/escudo_madeira.tres" id="12_c"]
-[ext_resource type="Resource" path="res://data/cartas/guerreiro/investida.tres" id="13_c"]
-[ext_resource type="Resource" uid="uid://cqrtt8vd5u3uk" path="res://data/cartas/guerreiro/grito_guerra.tres" id="14_c"]
+[ext_resource type="Resource" uid="uid://buai6i7bdss3j" path="res://data/cartas/guerreiro/investida.tres" id="13_c"]
+[ext_resource type="Resource" path="res://data/cartas/guerreiro/mente_tatica.tres" id="14_c"]
 [ext_resource type="Resource" uid="uid://du5w0hvlw7sqm" path="res://data/cartas/guerreiro/segundo_folego.tres" id="15_c"]
+[ext_resource type="Resource" path="res://data/cartas/guerreiro/surto_acao.tres" id="16_c"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
@@ -26,4 +27,4 @@ nome = "Guerreiro"
 descricao = "Combatente corpo a corpo: muita vida e CA, dano físico."
 dado_vida = 10
 stats = SubResource("Resource_stats")
-cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c"), ExtResource("15_c")])
+cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c"), ExtResource("15_c"), ExtResource("16_c")])

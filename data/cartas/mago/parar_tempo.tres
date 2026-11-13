@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "parar_tempo"
+nome = "Parar o Tempo"
+descricao = "Magia de nível 9. Todos os inimigos perdem 3 turnos."
+classe_origem = 1
+tipo_carta = 2
+tipo_acao = 1
+alvo = 1
+preco = 100
+atributo_usado = 3
+nivel_magia = 9
+efeito = 5
+valor = 3
+metadata/_custom_type_script = "uid://utuhllcodric"

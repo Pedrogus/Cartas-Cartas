@@ -12,4 +12,5 @@ var faces_dado_extra: int = 6
 var tipo_dano_extra: Enums.TipoDano = Enums.TipoDano.FOGO
 var vantagem: bool = false        # d20 de ataque com vantagem
 var desvantagem: bool = false     # d20 de ataque com desvantagem
+var dano_rolado: int = -1         # dano já rolado (cartas em área: um dano só para todos os alvos; -1 = rolar)
 var rerrolar_ate: int = 0         # rerrola o d20 se sair <= este valor (Escudo Arcano = 2; 0 = desligado)

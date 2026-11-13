@@ -20,12 +20,16 @@ static func salvaguarda_do_inimigo(carta: CardData, atacante: ActorStats, alvo: 
 	r.passou = r.total >= r.cd
 
 	if carta.causa_dano():
-		r.dano_bruto = AttackResolver.rolar_dano(carta, atacante, mods, false)
+		r.dano_bruto = mods.dano_rolado if mods.dano_rolado >= 0 else AttackResolver.rolar_dano(carta, atacante, mods, false)
 		r.formula_dano = AttackResolver.formula_dano(carta, atacante, mods, false)
 		var base := r.dano_bruto
 		if r.passou:
 			base = floori(r.dano_bruto / 2.0) if carta.dano_metade_na_salvaguarda else 0
-		r.dano_final = floori(base * alvo.multiplicador_dano(carta.tipo_dano))
+		var mult := alvo.multiplicador_dano(carta.tipo_dano)
+		r.dano_final = floori(base * mult)
+		# Falhou ou a carta dá metade: toma no mínimo 1 (só a imunidade zera).
+		if r.dano_final < 1 and r.dano_bruto > 0 and mult > 0.0 and (not r.passou or carta.dano_metade_na_salvaguarda):
+			r.dano_final = 1
 
 	if carta.efeito == Enums.Efeito.INIMIGO_PERDE_TURNOS and not r.passou:
 		r.turnos_perdidos = carta.valor
@@ -43,10 +47,12 @@ static func salvaguarda_do_jogador_contra_carta(carta: CardData, atacante: Actor
 	r.total = r.d20 + r.modificador
 	r.passou = r.total >= r.cd
 	if carta.causa_dano():
-		r.dano_bruto = AttackResolver.rolar_dano(carta, atacante, mods, false)
+		r.dano_bruto = mods.dano_rolado if mods.dano_rolado >= 0 else AttackResolver.rolar_dano(carta, atacante, mods, false)
 		r.formula_dano = AttackResolver.formula_dano(carta, atacante, mods, false)
 		if r.passou:
 			r.dano_final = floori(r.dano_bruto / 2.0) if carta.dano_metade_na_salvaguarda else 0
+			if carta.dano_metade_na_salvaguarda:
+				r.dano_final = maxi(r.dano_final, 1)   # toma no mínimo 1
 		else:
 			r.dano_final = r.dano_bruto
 	if carta.efeito == Enums.Efeito.INIMIGO_PERDE_TURNOS and not r.passou:

@@ -38,7 +38,8 @@ static func atacar_com_carta(carta: CardData, atacante: ActorStats, alvo: EnemyD
 	if not r.acertou:
 		return r
 
-	var principal := rolar_dano(carta, atacante, mods, r.critico)
+	# Carta em área: o dano é rolado uma vez para todos (mods.dano_rolado); o crítico rola o seu.
+	var principal := mods.dano_rolado if (mods.dano_rolado >= 0 and not r.critico) else rolar_dano(carta, atacante, mods, r.critico)
 	r.dano_principal = principal
 	var extra := _rolar_dano_extra(mods, r.critico)
 	r.dano_bruto = principal + extra
@@ -46,6 +47,9 @@ static func atacar_com_carta(carta: CardData, atacante: ActorStats, alvo: EnemyD
 	var mult_principal := alvo.multiplicador_dano(carta.tipo_dano) if alvo != null else 1.0
 	var mult_extra := alvo.multiplicador_dano(mods.tipo_dano_extra) if alvo != null else 1.0
 	r.dano_final = floori(principal * mult_principal) + floori(extra * mult_extra)
+	# Quem toma dano de um acerto toma no mínimo 1 (só a imunidade, multiplicador 0, zera).
+	if r.dano_final < 1 and r.dano_bruto > 0 and (mult_principal > 0.0 or (extra > 0 and mult_extra > 0.0)):
+		r.dano_final = 1
 	return r
 
 
@@ -65,6 +69,16 @@ static func formula_dano(carta: CardData, atacante: ActorStats, mods: Modificado
 	elif fixo < 0:
 		texto += " - %d" % absi(fixo)
 	return texto
+
+
+## Quantidade de dardos de uma carta DIVIDIDA (Mísseis Mágicos): os dados da carta viram dardos.
+static func qtd_dardos(carta: CardData, mods: ModificadoresAtaque) -> int:
+	return _qtd_dados(carta, mods, false)
+
+
+## Dano de UM dardo: 1 dado da carta + bônus fixo. Acerto automático.
+static func dano_dardo(carta: CardData, atacante: ActorStats, mods: ModificadoresAtaque) -> int:
+	return maxi(DiceRoller.rolar(1, carta.faces_dado) + _bonus_fixo_dano(carta, atacante, mods), 0)
 
 
 ## Tier do jogador a partir do nível: 0 a 9 (sobe a cada 2 níveis).

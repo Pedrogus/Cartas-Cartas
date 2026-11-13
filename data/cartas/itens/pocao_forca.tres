@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "pocao_forca"
+nome = "Poção da Força do Gigante"
+descricao = "+2 de Força por 3 turnos."
+tipo_carta = 2
+tipo_acao = 1
+alvo = 3
+categoria = 1
+efeito = 13
+valor = 2
+duracao_turnos = 3
+metadata/_custom_type_script = "uid://utuhllcodric"

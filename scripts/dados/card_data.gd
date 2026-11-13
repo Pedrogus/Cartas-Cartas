@@ -10,6 +10,8 @@ extends Resource
 @export var tipo_carta: Enums.TipoCarta = Enums.TipoCarta.ATAQUE
 ## Gasta 1 ação (ataques, magias de ataque, Teia) ou 1 ação bônus (suporte) do turno.
 @export var tipo_acao: Enums.TipoAcao = Enums.TipoAcao.ACAO
+@export var alvo: Enums.AlvoCarta = Enums.AlvoCarta.UNICO
+@export var categoria: Enums.CategoriaCarta = Enums.CategoriaCarta.CLASSE
 @export var arte: Texture2D
 @export var preco: int = 1
 ## Cópias no deck inicial da classe de origem (0 = só aparece por level up ou mercador).
@@ -38,8 +40,10 @@ extends Resource
 @export var duracao_turnos: int = 0
 
 
+## Só cartas de ATAQUE causam dano. Cartas de utilidade podem ter dados (cura, Mente Tática)
+## sem serem ataque.
 func causa_dano() -> bool:
-	return qtd_dados > 0 or bonus_dano_fixo > 0
+	return tipo_carta == Enums.TipoCarta.ATAQUE and (qtd_dados > 0 or bonus_dano_fixo > 0)
 
 
 ## Texto do dado para a interface: "2d4", "1d4+2". Vazio se a carta não causa dano.

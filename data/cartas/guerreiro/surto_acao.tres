@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "surto_acao"
+nome = "Surto de Ação"
+descricao = "Ganha 1 ação extra neste turno."
+tipo_carta = 2
+tipo_acao = 1
+alvo = 3
+copias_iniciais = 1
+efeito = 12
+valor = 1
+duracao_turnos = 1
+metadata/_custom_type_script = "uid://utuhllcodric"

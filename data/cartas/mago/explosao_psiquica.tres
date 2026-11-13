@@ -6,7 +6,7 @@
 script = ExtResource("1_card")
 id = "explosao_psiquica"
 nome = "Explosão Psíquica"
-descricao = "2d8 de dano psíquico."
+descricao = "Salvaguarda de INT: 2d8 de dano psíquico, metade se passar."
 classe_origem = 1
 copias_iniciais = 2
 tipo_dano = 4
@@ -16,4 +16,5 @@ atributo_usado = 3
 nivel_magia = 1
 exige_salvaguarda = true
 atributo_salvaguarda = 3
+dano_metade_na_salvaguarda = true
 metadata/_custom_type_script = "uid://utuhllcodric"

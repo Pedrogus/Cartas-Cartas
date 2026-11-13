@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="CardData" format=3]
+
+[ext_resource type="Script" uid="uid://utuhllcodric" path="res://scripts/dados/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = "pocao_constituicao"
+nome = "Poção do Urso"
+descricao = "+2 de Constituição por 3 turnos."
+tipo_carta = 2
+tipo_acao = 1
+alvo = 3
+categoria = 1
+atributo_usado = 2
+efeito = 13
+valor = 2
+duracao_turnos = 3
+metadata/_custom_type_script = "uid://utuhllcodric"

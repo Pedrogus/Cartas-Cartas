@@ -6,10 +6,13 @@
 script = ExtResource("1_card")
 id = "segundo_folego"
 nome = "Segundo Fôlego"
-descricao = "Cura 1d10 + nível (+ tier)."
+descricao = "Cura 1d10 + nível + tier."
 tipo_carta = 2
 tipo_acao = 1
+alvo = 3
 copias_iniciais = 1
+qtd_dados = 1
+faces_dado = 10
+nivel_magia = 1
 efeito = 10
-valor = 10
 metadata/_custom_type_script = "uid://utuhllcodric"

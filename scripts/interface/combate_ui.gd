@@ -3,18 +3,18 @@ extends Control
 ## e só chama jogar_carta / trocar_carta / terminar_turno. Não tem regra de jogo aqui.
 ## Layout (1280x720): inimigo no topo, jogador e pilha nas laterais, log no centro, mão embaixo.
 
-const INIMIGOS_CICLO_1: Array[String] = [
-	"res://data/inimigos/rato_esgoto.tres",
-	"res://data/inimigos/esqueleto_guardiao.tres",
-	"res://data/inimigos/cultista_sombras.tres",
+## Inimigos de cada fase do ciclo 1 (GDD v3.2): 2 Ratos, Guerreiro Morto-vivo, Cultista Mago (chefe).
+const FASES_CICLO_1: Array = [
+	["res://data/inimigos/rato_esgoto.tres", "res://data/inimigos/rato_esgoto.tres"],
+	["res://data/inimigos/esqueleto_guardiao.tres"],
+	["res://data/inimigos/cultista_sombras.tres"],
 ]
+const COR_ALVO := Color(1.0, 0.85, 0.3)
 
 var _cm: CombatManager
 
 var _lbl_fase: Label
-var _lbl_inimigo_nome: Label
-var _barra_inimigo: ProgressBar
-var _lbl_inimigo_info: Label
+var _caixa_inimigos: HBoxContainer   # um painel por inimigo; clique escolhe o alvo
 var _lbl_jogador_nome: Label
 var _barra_jogador: ProgressBar
 var _lbl_jogador_info: Label
@@ -63,15 +63,11 @@ func _construir() -> void:
 	var topo := HBoxContainer.new()
 	topo.add_theme_constant_override("separation", 12)
 	raiz.add_child(topo)
-	var caixa_inimigo := VBoxContainer.new()
-	_lbl_inimigo_nome = _novo_label(24)
-	_barra_inimigo = _nova_barra(Color(0.8, 0.2, 0.2))
-	_lbl_inimigo_info = _novo_label(15)
-	caixa_inimigo.add_child(_lbl_inimigo_nome)
-	caixa_inimigo.add_child(_barra_inimigo)
-	caixa_inimigo.add_child(_lbl_inimigo_info)
-	caixa_inimigo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	topo.add_child(_painel(caixa_inimigo, true))
+	_caixa_inimigos = HBoxContainer.new()
+	_caixa_inimigos.add_theme_constant_override("separation", 10)
+	_caixa_inimigos.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_caixa_inimigos.custom_minimum_size = Vector2(0, 150)
+	topo.add_child(_caixa_inimigos)
 	_lbl_fase = _novo_label(16)
 	_lbl_fase.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	topo.add_child(_painel(_lbl_fase))
@@ -220,8 +216,10 @@ func _iniciar_fase() -> void:
 	_cm.combate_atualizado.connect(_redesenhar)
 	_cm.log_adicionado.connect(_ao_log)
 	_cm.combate_finalizado.connect(_ao_finalizar)
-	var inimigo: EnemyData = load(INIMIGOS_CICLO_1[GameManager.fase_atual - 1])
-	_cm.iniciar(inimigo)
+	var inimigos: Array[EnemyData] = []
+	for caminho in FASES_CICLO_1[GameManager.fase_atual - 1]:
+		inimigos.append(load(caminho))
+	_cm.iniciar(inimigos)
 	_redesenhar()
 
 
@@ -265,21 +263,9 @@ func _mostrar_overlay(titulo: String, texto: String, opcoes: Array[Dictionary]) 
 # ---------------------------------------------------------------- redesenho
 
 func _redesenhar() -> void:
-	if _cm == null or _cm.inimigo_stats == null:
+	if _cm == null or _cm.inimigos.is_empty():
 		return
-	var ini := _cm.inimigo
-	var ini_stats := _cm.inimigo_stats
-	_lbl_inimigo_nome.text = ini.nome + "  (" + Enums.TipoCriatura.keys()[ini.tipo_criatura].capitalize().replace("_", " ") + ")" \
-		+ ("  [CHEFE]" if ini.eh_chefe else "")
-	_barra_inimigo.max_value = ini_stats.hp_max
-	_barra_inimigo.value = ini_stats.hp_atual
-	var info := "HP %d/%d   CA %d   Baralho %d • Mão %d • Descarte %d" % [ini_stats.hp_atual, ini_stats.hp_max,
-		_cm.ca_inimigo(), _cm.deck_inimigo.pilha.size(), _cm.deck_inimigo.mao.size(), _cm.deck_inimigo.descarte.size()]
-	info += _linha_tipos("Fraco", ini.fraquezas) + _linha_tipos("Resiste", ini.resistencias) \
-		+ _linha_tipos("Imune", ini.imunidades)
-	if _cm.turnos_inimigo_perdidos > 0:
-		info += "\nPRESO: perde %d turno(s)" % _cm.turnos_inimigo_perdidos
-	_lbl_inimigo_info.text = info
+	_reconstruir_inimigos()
 
 	_lbl_fase.text = "Ciclo %d • Fase %d/%d\nTurno %d\nNível %d • Ouro %d" % [GameManager.ciclo_atual,
 		GameManager.fase_atual, GameManager.FASES_POR_CICLO, _cm.turno, GameManager.nivel, GameManager.ouro]
@@ -309,6 +295,57 @@ func _redesenhar() -> void:
 	_btn_fim_turno.disabled = _cm.encerrado or not _cm.turno_do_jogador
 
 
+func _reconstruir_inimigos() -> void:
+	for f in _caixa_inimigos.get_children():
+		_caixa_inimigos.remove_child(f)
+		f.queue_free()
+	for i in _cm.inimigos.size():
+		_caixa_inimigos.add_child(_painel_inimigo(i, _cm.inimigos[i]))
+
+
+## Painel de um inimigo: nome, HP, CA, baralho e resistências. Clicar nele o escolhe como alvo.
+func _painel_inimigo(indice: int, e: InimigoEmCombate) -> PanelContainer:
+	var ini := e.data
+	var caixa := VBoxContainer.new()
+	var nome := _novo_label(20)
+	nome.text = e.nome + ("  [CHEFE]" if ini.eh_chefe else "")
+	var tipo := _novo_label(13)
+	tipo.text = Enums.TipoCriatura.keys()[ini.tipo_criatura].capitalize().replace("_", " ")
+	var barra := _nova_barra(Color(0.8, 0.2, 0.2))
+	barra.max_value = e.stats.hp_max
+	barra.value = e.stats.hp_atual
+	barra.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	var info := _novo_label(14)
+	if e.vivo():
+		var texto := "HP %d/%d   CA %d\nBaralho %d • Mão %d • Descarte %d" % [e.stats.hp_atual, e.stats.hp_max,
+			e.ca(), e.deck.pilha.size(), e.deck.mao.size(), e.deck.descarte.size()]
+		texto += _linha_tipos("Fraco", ini.fraquezas) + _linha_tipos("Resiste", ini.resistencias) \
+			+ _linha_tipos("Imune", ini.imunidades)
+		if e.turnos_perdidos > 0:
+			texto += "\nPRESO: perde %d turno(s)" % e.turnos_perdidos
+		info.text = texto
+	else:
+		info.text = "DERROTADO"
+	caixa.add_child(nome)
+	caixa.add_child(tipo)
+	caixa.add_child(barra)
+	caixa.add_child(info)
+	var painel := _painel(caixa, true)
+	painel.mouse_filter = Control.MOUSE_FILTER_STOP
+	painel.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND if e.vivo() else Control.CURSOR_ARROW
+	var estilo := StyleBoxFlat.new()
+	estilo.bg_color = Color(0.14, 0.14, 0.2)
+	var selecionado := e == _cm.alvo_atual and e.vivo()
+	estilo.set_border_width_all(3 if selecionado else 1)
+	estilo.border_color = COR_ALVO if selecionado else Color(0.35, 0.35, 0.45)
+	estilo.set_content_margin_all(8)
+	painel.add_theme_stylebox_override("panel", estilo)
+	if not e.vivo():
+		painel.modulate = Color(1, 1, 1, 0.4)
+	painel.gui_input.connect(_ao_clicar_inimigo.bind(indice))
+	return painel
+
+
 func _reconstruir_mao() -> void:
 	for f in _mao.get_children():
 		_mao.remove_child(f)
@@ -329,7 +366,14 @@ func _texto_carta(cn: CartaNoDeck) -> String:
 	var texto := c.nome
 	if cn.tier > 0:
 		texto += "  [T%d]" % cn.tier
-	texto += "\n" + ("[AÇÃO BÔNUS]" if c.tipo_acao == Enums.TipoAcao.ACAO_BONUS else "[AÇÃO]") + "\n"
+	texto += "\n" + ("[AÇÃO BÔNUS]" if c.tipo_acao == Enums.TipoAcao.ACAO_BONUS else "[AÇÃO]")
+	if c.causa_dano() or c.exige_salvaguarda or c.efeito == Enums.Efeito.INIMIGO_PERDE_TURNOS:
+		match c.alvo:
+			Enums.AlvoCarta.TODOS:
+				texto += " [ÁREA]"
+			Enums.AlvoCarta.DIVIDIDO:
+				texto += " [DIVIDIDO]"
+	texto += "\n"
 	if c.causa_dano():
 		texto += "%s %s\n" % [c.texto_dado(), _nome_tipo(c.tipo_dano)]
 	return texto + "\n" + c.descricao
@@ -366,6 +410,13 @@ func _ao_clicar_carta(cn: CartaNoDeck) -> void:
 		_cm.trocar_carta(cn)
 	else:
 		_cm.jogar_carta(cn)
+
+
+func _ao_clicar_inimigo(evento: InputEvent, indice: int) -> void:
+	if _cm == null:
+		return
+	if evento is InputEventMouseButton and evento.pressed and evento.button_index == MOUSE_BUTTON_LEFT:
+		_cm.selecionar_alvo(indice)
 
 
 func _ao_terminar_turno() -> void:

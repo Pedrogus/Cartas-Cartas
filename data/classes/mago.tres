@@ -6,13 +6,14 @@
 [ext_resource type="Resource" uid="uid://dubxq8j06o8kh" path="res://data/cartas/mago/misseis_magicos.tres" id="10_c"]
 [ext_resource type="Resource" uid="uid://do5qhbiqce0b4" path="res://data/cartas/mago/orbe_fogo.tres" id="11_c"]
 [ext_resource type="Resource" uid="uid://bsriwk4jn72to" path="res://data/cartas/mago/raio_gelo.tres" id="12_c"]
-[ext_resource type="Resource" path="res://data/cartas/mago/toque_chocante.tres" id="13_c"]
+[ext_resource type="Resource" uid="uid://m7hyyfafame1" path="res://data/cartas/mago/toque_chocante.tres" id="13_c"]
 [ext_resource type="Resource" uid="uid://b6voxg7g47xhl" path="res://data/cartas/mago/explosao_psiquica.tres" id="14_c"]
 [ext_resource type="Resource" uid="uid://c11rrvwaqsfkh" path="res://data/cartas/mago/armadura_arcana.tres" id="15_c"]
 [ext_resource type="Resource" uid="uid://bvkxehbl6b10m" path="res://data/cartas/mago/escudo_arcano.tres" id="16_c"]
-[ext_resource type="Resource" path="res://data/cartas/mago/teia.tres" id="17_c"]
+[ext_resource type="Resource" uid="uid://dii8ejhynmm6r" path="res://data/cartas/mago/teia.tres" id="17_c"]
 [ext_resource type="Resource" uid="uid://c3v3je6uci371" path="res://data/cartas/mago/foco_mental.tres" id="18_c"]
-[ext_resource type="Resource" path="res://data/cartas/mago/recuperacao_arcana.tres" id="19_c"]
+[ext_resource type="Resource" uid="uid://dkdsm0hb5tv6y" path="res://data/cartas/mago/recuperacao_arcana.tres" id="19_c"]
+[ext_resource type="Resource" path="res://data/cartas/mago/parar_tempo.tres" id="20_c"]
 
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
@@ -32,4 +33,4 @@ descricao = "Conjurador frágil, mas com magias de vários tipos de dano."
 atributo_principal = 3
 dado_vida = 6
 stats = SubResource("Resource_stats")
-cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c"), ExtResource("15_c"), ExtResource("16_c"), ExtResource("17_c"), ExtResource("18_c"), ExtResource("19_c")])
+cartas = Array[ExtResource("3_card")]([ExtResource("10_c"), ExtResource("11_c"), ExtResource("12_c"), ExtResource("13_c"), ExtResource("14_c"), ExtResource("15_c"), ExtResource("16_c"), ExtResource("17_c"), ExtResource("18_c"), ExtResource("19_c"), ExtResource("20_c")])

@@ -8,12 +8,12 @@
 [sub_resource type="Resource" id="Resource_stats"]
 script = ExtResource("2_stats")
 destreza = 14
-hp_max = 15
+hp_max = 9
 
 [resource]
 script = ExtResource("1_enemy")
 id = "rato_esgoto"
-nome = "Rato de Esgoto Mutante"
+nome = "Rato Mutante"
 descricao = "Fase 1. Rápido e fraco, mas teme o fogo."
 tipo_criatura = 4
 stats = SubResource("Resource_stats")

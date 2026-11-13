@@ -16,13 +16,16 @@ const NOMES_ATRIBUTO := {
 }
 
 ## Carta sem rolagem (escudo, cura...) ou o início de uma carta com salvaguarda.
-static func usou(ator: String, carta: CardData) -> String:
-	return "%s -> Utilizou %s" % [ator, carta.id.to_upper()]
+static func usou(ator: String, carta: CardData, alvo: String = "") -> String:
+	var texto := "%s -> Utilizou %s" % [ator, carta.id.to_upper()]
+	if alvo != "":
+		texto += " em %s" % alvo
+	return texto
 
 
 ## Carta de ataque (d20 contra a CA). Sai em uma linha só.
-static func ataque(ator: String, carta: CardData, r: ResultadoAtaque) -> String:
-	var texto := usou(ator, carta)
+static func ataque(ator: String, carta: CardData, r: ResultadoAtaque, alvo: String = "") -> String:
+	var texto := usou(ator, carta, alvo)
 	if r.acerto_automatico:
 		return texto + " -> " + _resultado(true, "ACERTO AUTOMÁTICO", "")
 	texto += " -> Tirou %d" % r.d20
