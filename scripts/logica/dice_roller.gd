@@ -47,3 +47,13 @@ static func embaralhar(lista: Array) -> void:
 		var temp: Variant = lista[i]
 		lista[i] = lista[j]
 		lista[j] = temp
+
+
+## true com probabilidade p (0.0 a 1.0). Ex.: chance(0.1) = 10%. Usado no mercador.
+static func chance(p: float) -> bool:
+	return _rng.randf() < p
+
+
+## Índice aleatório de 0 a n - 1 (n > 0).
+static func indice(n: int) -> int:
+	return _rng.randi_range(0, n - 1)

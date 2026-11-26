@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ArcanaData" format=3 uid="uid://bh4jann4n6ah4"]
+
+[ext_resource type="Script" uid="uid://bulji641lde0" path="res://scripts/dados/arcana_data.gd" id="1_arcana"]
+[ext_resource type="Texture2D" uid="uid://dxuo1ld5pmbfc" path="res://assets/arcanos/O Imperador - Taro Odisseia.jpg" id="2_arte"]
+
+[resource]
+script = ExtResource("1_arcana")
+id = "imperador"
+nome = "O Imperador"
+descricao = "Placeholder: postura de comando, difícil de acertar."
+arte = ExtResource("2_arte")
+preco = 8
+efeito = 2

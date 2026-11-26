@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ArcanaData" format=3 uid="uid://4h1ee1o64d0g"]
+
+[ext_resource type="Script" uid="uid://bulji641lde0" path="res://scripts/dados/arcana_data.gd" id="1_arcana"]
+[ext_resource type="Texture2D" uid="uid://cwbwg143xa28l" path="res://assets/arcanos/A Força - Taro Odisseia.jpg" id="2_arte"]
+
+[resource]
+script = ExtResource("1_arcana")
+id = "forca"
+nome = "A Força"
+descricao = "Placeholder: seus golpes ficam mais fortes."
+arte = ExtResource("2_arte")
+valor = 2

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="ArcanaData" format=3 uid="uid://dvffacoe8lf7w"]
+
+[ext_resource type="Script" uid="uid://bulji641lde0" path="res://scripts/dados/arcana_data.gd" id="1_arcana"]
+[ext_resource type="Texture2D" uid="uid://bu27juacwljjj" path="res://assets/arcanos/O Sol - Taro Odisseia.jpg" id="2_arte"]
+
+[resource]
+script = ExtResource("1_arcana")
+id = "sol"
+nome = "O Sol"
+descricao = "Placeholder: todo acerto queima o alvo."
+arte = ExtResource("2_arte")
+preco = 10
+efeito = 1

@@ -73,9 +73,9 @@ func iniciar(p_inimigos: Array[EnemyData]) -> void:
 	_iniciar_turno_jogador()
 
 
-## CA do jogador agora: base + bônus temporários das cartas.
+## CA do jogador agora: base + Arcanos + bônus temporários das cartas.
 func ca_jogador() -> int:
-	var total := jogador.ca
+	var total := jogador.ca + GameManager.bonus_ca_arcanos()
 	for b in bonus_ca:
 		total += b["valor"]
 	return total
@@ -452,7 +452,21 @@ func _montar_mods(cn: CartaNoDeck) -> ModificadoresAtaque:
 	m.tier = cn.tier
 	m.bonus_acerto = bonus_acerto_proxima
 	m.rerrolar_ate = rerrolar_ate
+	_aplicar_arcanos(m)
 	return m
+
+
+## Arcanos equipados entram em todo ataque do jogador (placeholder da simulação v3).
+## Se houver mais de um Arcano elemental, os dados somam e vale o tipo do último.
+func _aplicar_arcanos(m: ModificadoresAtaque) -> void:
+	for a in GameManager.arcanos:
+		match a.efeito:
+			Enums.EfeitoArcano.DANO_EXTRA:
+				m.bonus_dano += a.valor
+			Enums.EfeitoArcano.DANO_ELEMENTAL:
+				m.dados_extras += a.valor
+				m.faces_dado_extra = a.faces_dado
+				m.tipo_dano_extra = a.tipo_dano_extra
 
 
 ## Inimigos atingidos pela carta: ÚNICO e DIVIDIDO = o alvo selecionado; TODOS = todos os vivos;

@@ -98,3 +98,12 @@ static func eh_fisico(tipo: TipoDano) -> bool:
 	return tipo == TipoDano.CORTANTE \
 		or tipo == TipoDano.PERFURANTE \
 		or tipo == TipoDano.CONTUNDENTE
+
+## O que um Arcano faz (placeholder da simulação v3: +2 de dano, +1d6 elemental ou +1 de CA).
+## Os Arcanos Maiores finais (efeitos, raridades) dependem dos assets.
+## REGRA: valores novos entram SEMPRE no FINAL.
+enum EfeitoArcano {
+	DANO_EXTRA,       # +valor de dano fixo em todo acerto do jogador
+	DANO_ELEMENTAL,   # +valor dados de faces_dado do tipo_dano_extra em todo acerto
+	BONUS_CA,         # +valor de CA permanente enquanto equipado
+}

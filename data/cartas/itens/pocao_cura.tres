@@ -11,6 +11,7 @@ tipo_carta = 2
 tipo_acao = 1
 alvo = 3
 categoria = 1
+preco = 5
 qtd_dados = 1
 faces_dado = 4
 bonus_dano_fixo = 2

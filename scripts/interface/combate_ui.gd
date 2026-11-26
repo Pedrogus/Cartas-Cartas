@@ -228,10 +228,25 @@ func _ao_finalizar(venceu: bool, motivo: String) -> void:
 	if venceu:
 		var texto := "+%d PO (total: %d)\nHP: %d/%d" % [_cm.ouro_ganho, GameManager.ouro,
 			_cm.jogador.hp_atual, _cm.jogador.hp_max]
-		_mostrar_overlay("Vitória!", texto, [{"texto": "Próxima fase", "acao": _proxima_fase}])
+		# Mercador comum depois das fases 1 e 2 (o do Chefe, após a fase 3, é a próxima etapa).
+		if GameManager.fase_atual < GameManager.FASES_POR_CICLO:
+			_mostrar_overlay("Vitória!", texto, [{"texto": "Ir ao mercador", "acao": _abrir_mercador}])
+		else:
+			_mostrar_overlay("Vitória!", texto, [{"texto": "Próxima fase", "acao": _proxima_fase}])
 	else:
 		var causa := "Seu HP chegou a 0." if motivo == "hp_zero" else "Acabaram as cartas (mão e pilha)."
 		_mostrar_overlay("Game Over", causa, [{"texto": "Nova run", "acao": _mostrar_selecao_classe}])
+
+
+func _abrir_mercador() -> void:
+	_overlay.hide()
+	var mercador := MercadorUI.new()
+	mercador.custom_minimum_size = size
+	mercador.size = size
+	add_child(mercador)
+	mercador.mercador_fechado.connect(func() -> void:
+		mercador.queue_free()
+		_proxima_fase())
 
 
 func _proxima_fase() -> void:

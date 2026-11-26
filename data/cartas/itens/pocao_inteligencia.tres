@@ -11,6 +11,7 @@ tipo_carta = 2
 tipo_acao = 1
 alvo = 3
 categoria = 1
+preco = 5
 atributo_usado = 3
 efeito = 13
 valor = 2

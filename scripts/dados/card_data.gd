@@ -13,7 +13,8 @@ extends Resource
 @export var alvo: Enums.AlvoCarta = Enums.AlvoCarta.UNICO
 @export var categoria: Enums.CategoriaCarta = Enums.CategoriaCarta.CLASSE
 @export var arte: Texture2D
-@export var preco: int = 1
+## Preço no mercador (PO). Carta comum = 3; poções e cartas especiais mudam no .tres.
+@export var preco: int = 3
 ## Cópias no deck inicial da classe de origem (0 = só aparece por level up ou mercador).
 @export var copias_iniciais: int = 0
 
